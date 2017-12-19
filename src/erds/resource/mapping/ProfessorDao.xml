@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ProfessorDao">
+	<resultMap type="erds.com.bean.Professor" id="professorResultMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="begintime" property="beginTime" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="tname" property="tName" jdbcType="VARCHAR" />
+		<result column="bigtype" property="bigType" jdbcType="VARCHAR" />
+		<result column="smalltype" property="smallType" jdbcType="VARCHAR" />
+		<result column="coverimg" property="coverImg" jdbcType="VARCHAR" />
+		<result column="directories" property="directories" jdbcType="VARCHAR" />
+		<result column="announcement" property="announcement" jdbcType="VARCHAR" />
+		<result column="provide" property="provide" jdbcType="VARCHAR" />
+		<result column="video" property="video" jdbcType="VARCHAR" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="oprice" property="oPrice" jdbcType="DOUBLE" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="totalnum" property="totalNum" jdbcType="INTEGER" />
+	</resultMap>
+	<insert id="saveProfessor" parameterType="java.util.Map">
+		INSERT INTO `professor` (
+		  `id`,
+		  `tid`,
+		  `tname`,
+		  `price`,
+		  `oprice`,
+		  `begintime`,
+		  `duration`,
+		  `title`,
+		  `bigtype`,
+		  `smalltype`,
+		  `coverimg`,
+		  `video`,
+		  `totalnum`,
+		  `directories`,
+		  `announcement`,
+		  `provide`
+		) 
+		VALUES
+		  (
+		    #{id},
+		    #{tid},
+		    #{tname},
+		    #{price},
+		    #{oprice},
+		    #{begintime},
+		    #{duration},
+		    #{title},
+		    #{bigtype},
+		    #{smalltype},
+		    #{coverimg},
+		    #{video},
+		    #{totalnum},
+		    #{directories},
+		    #{announcement},
+		    #{provide}
+		  ) ;
+	</insert>
+	<select id="queryProfessor" parameterType="java.util.Map" resultMap="professorResultMap">
+		SELECT 
+  `id`,
+  `tid`,
+  `tname`,
+  `price`,
+  `oprice`,
+  `begintime`,
+  `duration`,
+  `title`,
+  `bigtype`,
+  `smalltype`,
+  `coverimg`,
+  `video`,
+  `totalnum`,
+  `directories`,
+  `announcement`,
+  `provide` 
+FROM
+  `professor` 
+  <where>
+  	<if test="bigType != null and bigType != '' ">
+				bigtype = #{bigType}
+			</if>
+			<if test="smallType != null and smallType != '' ">
+				and smalltype = #{smallType}
+			</if>
+			<if test="id != null and id != '' ">
+				and id = #{id}
+			</if>
+			<if test="tid != null and tid != '' ">
+				and tid = #{tid}
+			</if>
+			<if test="title != null and title != '' ">
+				and title like concat(concat('%',#{title}),'%')
+			</if>
+  </where>
+LIMIT #{pageIndex}, #{pageSize} ;
+	</select>
+</mapper>

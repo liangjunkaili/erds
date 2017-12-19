@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p id="tol"></p>
+	<video id="myVideo" controls preload="auto" width=300 height="165" 
+	poster="http://oev6hl3jh.bkt.clouddn.com/1476282913631cover.jpg" 
+	src="http://oev6hl3jh.bkt.clouddn.com/1476692479699video.mp4">
+	</video>
+	<button onclick="play()">播放</button>
+	<button onclick="pause()">暂停</button>
+	<button onclick="playBySeconds(2)">设置播放点</button>
+	<button onclick="setVol(0.5)">设置声音</button>
+<script>
+var myVideo = document.getElementById('myVideo')//获取video元素
+,tol = 0 //总时长
+;
+var total = document.getElementById('tol');
+myVideo.addEventListener("loadedmetadata", function(){
+tol = myVideo.duration;//获取总时长
+total.innerHTML="总时长"+tol;
+console.log('总时长'+tol);//在调试器中打印
+});
+//播放
+function play(){ 
+myVideo.play();
+}
+//暂停
+function pause(){ 
+myVideo.pause();
+}
+//播放时间点更新时
+myVideo.addEventListener("timeupdate", function(){
+var currentTime = myVideo.currentTime;//获取当前播放时间
+console.log('当前播放时间'+currentTime);//在调试器中打印
+});
+playBySeconds(15);
+//设置播放点
+function playBySeconds(num){ 
+myVideo.currentTime = num;
+}
+//音量改变时
+myVideo.addEventListener("volumechange", function(){
+var volume = myVideo.volume;//获取当前音量
+console.log('当前音量'+volume);//在调试器中打印
+});
+//设置音量
+function setVol(num){ 
+myVideo.volume = num;
+}
+</script>
+</body>
+</html>

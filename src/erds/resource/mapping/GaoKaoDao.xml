@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IGaoKaoDao">
+
+	<resultMap type="erds.com.bean.Gaokao1" id="gk1ResultMap">
+		<result column="max" property="max" jdbcType="INTEGER" />
+		<result column="min" property="min" jdbcType="INTEGER" />
+		<result column="num" property="num" jdbcType="INTEGER" />
+		<result column="pici" property="pici" jdbcType="VARCHAR" />
+		<result column="kelei" property="kelei" jdbcType="VARCHAR" />
+		<result column="yuanxiao" property="yuanxiao" jdbcType="VARCHAR" />
+		<result column="major_code" property="major_code" jdbcType="VARCHAR" />
+		<result column="major_name" property="major_name" jdbcType="VARCHAR" />
+		<result column="tbcs" property="tbcs" jdbcType="VARCHAR" />
+		<result column="min_precedence" property="min_precedence" jdbcType="VARCHAR" />
+		<result column="nature" property="nature" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap type="erds.com.bean.Gaokao2" id="gk2ResultMap">
+		<result column="zymc" property="zymc" jdbcType="VARCHAR" />
+		<result column="xz" property="xz" jdbcType="VARCHAR" />
+		<result column="xw" property="xw" jdbcType="VARCHAR" />
+		<result column="zykc" property="zykc" jdbcType="VARCHAR" />
+		<result column="zygs" property="zygs" jdbcType="VARCHAR" />
+		<result column="jyfx" property="jyfx" jdbcType="VARCHAR" />
+		<result column="hyfx" property="hyfx" jdbcType="VARCHAR" />
+		<result column="yhzy" property="yhzy" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryGk1" resultMap="gk1ResultMap" parameterType="java.util.Map">
+		SELECT 
+		  `pici`,
+		  `kelei`,
+		  `yuanxiao`,
+		  `major_code`,
+		  `major_name`,
+		  `tbcs`,
+		  `max`,
+		  `min`,
+		  `min_precedence`,
+		  `num`,
+		  `nature` 
+		FROM
+		  `gkzy` 
+		  <where>
+		  	<if test="min_precedence != null and min_precedence != '' ">
+		  		min_precedence=#{min_precedence}
+		  	</if>
+		  	<if test="pici != null and pici!='' ">
+		  		and pici = #{pici}
+		  	</if>
+		  	<if test="kelei != null and kelei !='' ">
+		  		and kelei=#{kelei}
+		  	</if>
+		  	<if test="kelei != null and kelei !='' ">
+		  		and kelei=#{kelei}
+		  	</if>
+		  	<if test="min != null and min !='' ">
+		  		and min=#{min}
+		  	</if>
+		  </where>
+		LIMIT 0, 1000 ;
+	</select>
+	<select id="queryGk2" resultMap="gk2ResultMap" parameterType="java.util.Map">
+		select 
+		  `zymc`,
+		  `xz`,
+		  `xw`,
+		  `zykc`,
+		  `zygs`,
+		  `jyfx`,
+		  `hyfx`,
+		  `yhzy` 
+		from
+		  `zytbjyfx` 
+		  where zymc=#{zymc}
+		limit 0, 1000 ;
+	</select>
+</mapper>

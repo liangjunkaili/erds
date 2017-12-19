@@ -1,0 +1,4 @@
+/*! ablejs - v0.2.0 - Thursday, October 23rd, 2014, 7:37:30 PM
+* http://www.ablesky.com
+* Copyright (c) 2014 frontend@ablesky.com; Licensed  */
+.main-content-wrap{width:1000px;background:#fff;margin:0 auto;color:#555}.main-content-wrap .main-content-left{float:left;min-height:200px;width:180px}.main-content-wrap .main-content-right{float:right;width:798px;border:1px solid #ddd}.main-content-wrap .main-content-right.no-border{width:800px;border:0}.main-content-wrap .char-counter .used{color:#555}.main-content-wrap .char-counter .used.exceed{color:#f33}

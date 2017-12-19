@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <link rel="stylesheet" type="text/css" href="./css/login.css">
+</head>
+
+<body>
+    <!--登录框-->
+    <div class="login-main">
+        <div class="login-header">
+            <p class="login-title">学生登录</p>
+        </div>
+        <div class="login-content">
+            <label for="username">
+            邮箱/手机号/用户名:
+            </label>
+                <input type="text" name="username" id="username" class="input" autofocus>
+            <label for="passwd">
+            密码:
+            </label>
+                <input type="password" name="passwd" id="passwd" class="input">
+            <a class="forget-passwd link" href="http://www.ablesky.com/index.do">忘记密码</a>
+            <div class="remb">
+                <input type="checkbox" id="auto-login">
+                <label for="auto-login" class="auto-login">
+                    自动登录
+                </label>
+            </div>
+        </div>
+        <div class="login-footer">
+            <a href="./login.html" class="login-btn">立即登录</a>
+            <a href="./reg.html" class="link">注册</a>
+            <div class="other-methods">
+                <p>您还可以使用其它帐号直接登录</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

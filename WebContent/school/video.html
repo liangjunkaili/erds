@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>video标签详解</title>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" type="test/css" href="css/bootstrap.min.css">
+<script type="text/javascript" src="static/js/common/common.js"></script>
+<style type="text/css">
+	ul li{
+		list-style: none;
+		float: left;
+		margin-right: 10px;
+	}
+	a{
+		text-decoration:none;
+		color:#333;
+		width: 50px;
+		height: 25px;
+		background-color: gray;
+	}
+	video::-webkit-media-controls-enclosure {
+    /*禁用播放器控制栏的样式*/
+    display: none !important;
+}
+</style>
+<script type="text/javascript">
+	var dsId="";
+	var drId="";
+	var courseId="";
+	var classId="";
+	var oo = GetRequest();
+	function init(){
+		drId=oo.drId;
+		var courseList = "";
+		$.ajax({
+			 url: "getVideoList",
+			 type: "POST",
+			 data:"courseId="+oo.currentId+"&uid=18550442795",
+			 success: function(data){
+				 if(data.code==200){
+					 classId=data.driveRecord.classId;
+					 courseId=data.driveRecord.courseId;
+					 for(var i=0;i<data.size;i++){
+						 var obj = data.list[i];
+						 if(obj.course==data.driveRecord.courseId && obj.id==data.driveRecord.classId){
+							 $("#myvideo").attr("poster",obj.imgurl);
+							 $("#myvideo").attr("src",obj.url);
+							 document.getElementById("myvideo").currentTime = obj.currentTime;
+							 dsId = obj.id;
+						 }
+						 if(obj.course<data.driveRecord.courseId){
+							 courseList+="<div style='float: left;margin-left: 20px;'>"+
+							 "<img alt='' src='"+obj.imgurl+"' width='200px;' onclick=pp('"+obj.imgurl+"','"+obj.url+"',"+obj.id+","+obj.currentTime+") height='200px;'><br>"+
+							 "<label>"+obj.clazz+" "+formatSeconds(obj.duration)+"</label></div>";
+							 $("#myvideo").attr("poster",obj.imgurl);
+							 $("#myvideo").attr("src",obj.url);
+							 document.getElementById("myvideo").currentTime = obj.currentTime;
+							 dsId = obj.id;
+						 }else{
+							 if(obj.id>data.driveRecord.classId){
+								 courseList+="<div style='float: left;margin-left: 20px;'>"+
+								 "<img alt='' src='"+obj.imgurl+"' width='200px;' onclick='tostudy()' height='200px;'><br>"+
+								 "<label>"+obj.clazz+""+formatSeconds(obj.duration)+"</label></div>";
+							 }else{
+								 courseList+="<div style='float: left;margin-left: 20px;'>"+
+								 "<img alt='' src='"+obj.imgurl+"' width='200px;' onclick=pp('"+obj.imgurl+"','"+obj.url+"',"+obj.id+","+obj.currentTime+") height='200px;'><br>"+
+								 "<label>"+obj.clazz+" "+formatSeconds(obj.duration)+"</label></div>";
+							 }
+						 }
+					 }
+					 $("#tabList").append(courseList);
+					 $("#title").append("第"+data.list[0].course+"课 共"+data.size+"节");
+				 }
+			 },
+			 dataType : "json"
+		})
+	}
+</script>
+</head>
+<body>
+	<div style="width: 800px;margin: 0 auto;">
+	<div id="videobox">
+		<video id="myvideo" width="800" height="604" src=""   poster="" 
+		onplay="timedCount()" onpause="stopCount()" onended="logout()">
+		</video>
+		<ul>
+			<li><a href="#" onclick="play()">播放</a></li>
+			<li><a href="#" onclick="pause()">暂停</a></li>
+			<li><a href="#" id="fullGreen">全屏</a></li>
+			<li><a href="#" onclick="logout()">退出</a></li>
+			<li><lable>实际观看</lable><input type="text" id="txt" style="width: 50px;"></li>
+			<li><lable>视频进度</lable><input type="text" id="progress" style="width: 50px;"></li>
+			<li><lable>视频总长度</lable><input type="text" id="duration" style="width: 50px;"></li>
+		</ul><br>
+	</div>
+		<div id="tabList">
+			<h2 id="title"></h2>
+		</div>
+	</div>
+<script type="text/javascript">
+var video = document.getElementById("myvideo");
+function logout(){
+	video.pause();
+	var currentTime = document.getElementById('progress').value;
+	var actualtime = document.getElementById('txt').value;
+	var duration = document.getElementById('duration').value;
+	if(courseId>oo.currentId || (courseId==oo.currentId && classId>dsId)){
+		return;
+	}
+	$.ajax({
+		 url: "updateVideoProgress",
+		 type: "POST",
+		 data:"uid=18550442795&currentTime="+currentTime+"&actualtime="+actualtime+"&duration="+duration+"&drId="+drId+"&dsId="+dsId+"&courseId="+courseId,
+		 success: function(data){
+			 if(data.code==200){
+				 alert("success")
+			 }
+		 },
+		 dataType : "json"
+	}) 
+}
+function tostudy() {
+	alert("请先学习完上一课程");
+}
+function pp(i,j,k,l){
+	$("#myvideo").attr("poster",i);
+	$("#myvideo").attr("src",j);
+	dsId=k;
+	video.currentTime  = l;
+}
+window.onload = function(){
+	init();
+    //去掉默认的contextmenu事件，否则会和右键事件同时出现。
+    document.oncontextmenu = function(e){
+        e.preventDefault();
+    };
+    document.getElementById("myvideo").onmousedown = function(e){
+        if(e.button ==2){
+        	console.log("你点了右键");
+        }else if(e.button ==0){
+        	console.log("你点了左键");
+        }else if(e.button ==1){
+        	console.log("你点了滚轮");
+        }
+    }
+}
+function play(){
+	video.play();
+}
+function pause(){
+	video.pause();
+}
+var c=0
+var t
+function timedCount()
+{
+	document.getElementById('duration').value = video.duration;
+	document.getElementById('progress').value=video.currentTime
+	document.getElementById('txt').value=c
+	c=c+1
+	t=setTimeout("timedCount()",1000)
+}
+
+function stopCount()
+{
+clearTimeout(t);
+}
+
+
+//反射調用
+var invokeFieldOrMethod = function(element, method)
+{
+var usablePrefixMethod;
+["webkit", "moz", "ms", "o", ""].forEach(function(prefix) {
+if (usablePrefixMethod) return;
+if (prefix === "") {
+// 无前缀，方法首字母小写
+method = method.slice(0,1).toLowerCase() + method.slice(1);
+}
+var typePrefixMethod = typeof element[prefix + method];
+if (typePrefixMethod + "" !== "undefined") {
+if (typePrefixMethod === "function") {
+usablePrefixMethod = element[prefix + method]();
+} else {
+usablePrefixMethod = element[prefix + method];
+}
+}
+});
+
+return usablePrefixMethod;
+};
+
+//進入全屏
+function launchFullscreen(element)
+{
+//此方法不可以在異步任務中執行，否則火狐無法全屏
+if(element.requestFullscreen) {
+element.requestFullscreen();
+console.log(element.controls);
+} else if(element.mozRequestFullScreen) {
+element.mozRequestFullScreen();
+console.log(element.controls);
+} else if(element.msRequestFullscreen){
+element.msRequestFullscreen();
+console.log(element.controls);
+} else if(element.oRequestFullscreen){
+element.oRequestFullscreen();
+console.log(element.controls);
+}
+else if(element.webkitRequestFullscreen)
+{
+element.webkitRequestFullScreen();
+console.log(element.controls);
+}else{
+
+var docHtml = document.documentElement;
+var docBody = document.body;
+var videobox = document.getElementById('videobox');
+var cssText = 'width:100%;height:100%;overflow:hidden;';
+docHtml.style.cssText = cssText;
+docBody.style.cssText = cssText;
+videobox.style.cssText = cssText+';'+'margin:0px;padding:0px;';
+document.IsFullScreen = true;
+
+}
+}
+//退出全屏
+function exitFullscreen()
+{
+if (document.exitFullscreen) {
+document.exitFullscreen();
+document.con
+} else if (document.msExitFullscreen) {
+document.msExitFullscreen();
+} else if (document.mozCancelFullScreen) {
+document.mozCancelFullScreen();
+} else if(document.oRequestFullscreen){
+document.oCancelFullScreen();
+}else if (document.webkitExitFullscreen){
+document.webkitExitFullscreen();
+}else{
+var docHtml = document.documentElement;
+var docBody = document.body;
+var videobox = document.getElementById('videobox');
+docHtml.style.cssText = "";
+docBody.style.cssText = "";
+videobox.style.cssText = "";
+document.IsFullScreen = false;
+}
+}
+document.getElementById('fullGreen').addEventListener('click',function(){
+launchFullscreen(document.getElementById('myvideo'));
+window.setTimeout(function exit(){
+//檢查瀏覽器是否處於全屏
+if(invokeFieldOrMethod(document,'FullScreen') || invokeFieldOrMethod(document,'IsFullScreen') || document.IsFullScreen)
+{
+//exitFullscreen();
+}
+},5*1000);
+},false);
+</script>
+</body>
+</html>

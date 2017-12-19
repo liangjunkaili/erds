@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IssrDao">
+
+	<resultMap type="erds.com.bean.StudentStudyRecord" id="ssrResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="VARCHAR" />
+		<result column="sName" property="sName" jdbcType="VARCHAR" />
+		<result column="studyTime" property="studyTime" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="querySSRecord" parameterType="java.util.Map" resultMap="ssrResultMap">
+		SELECT 
+		  `id`,
+		  `sid`,
+		  `sName`,
+		  `studyTime`,
+		  `content` 
+		FROM
+		  `student_study_record` s
+		where s.sid=#{sid}  
+		and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[   <=  ]]> DATE(s.`studyTime`)
+		LIMIT #{pageIndex}, #{pageSize} ;
+	</select>
+	<insert id="saveSSRecord" parameterType="java.util.Map">
+		INSERT INTO `student_study_record` (
+		  `sid`,
+		  `sName`,
+		  `studyTime`,
+		  `content`
+		) 
+		VALUES
+		  (
+		    #{sid},
+		     #{sName},
+		     #{studyTime},
+		     #{content}
+		  ) ;
+	</insert>
+
+</mapper>

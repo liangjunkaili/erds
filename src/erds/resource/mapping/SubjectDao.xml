@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ISubjectDao">
+
+	<resultMap type="erds.com.bean.Subject" id="subjectResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="did" property="did" jdbcType="INTEGER" />
+		<result column="videourl" property="videoUrl" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="free" property="free" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="querySubject" resultMap="subjectResultMap" parameterType="java.util.Map">
+			
+	SELECT 	`id`, 
+		`did`, 
+		`title`, 
+		`videourl`,free
+		FROM 
+		`subject`
+		<where> 
+		    <if test="did != null and did != '' ">
+		         did = #{did}
+		    </if>
+		    
+		    <if test="title != null and did != '' ">
+		        and title = #{title}
+		    </if>
+		  </where> 
+		LIMIT 0, 1000;
+	</select>
+	<insert id="addSubject" parameterType="java.util.Map">
+	INSERT INTO `subject` ( `did`, `title`, `videourl`,`free`) 
+	VALUES
+	  ( #{did}, #{title}, #{videourl}, #{free}) ;
+	</insert>
+
+	<delete id="delSubject" parameterType="java.lang.Integer">
+		DELETE 
+		FROM
+		  `subject` 
+		WHERE `id` = #{id} ;
+		
+	</delete>
+</mapper>

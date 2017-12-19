@@ -1,0 +1,56 @@
+.hezuo-link img{
+    width: 140px;
+    height: 80px;
+    margin: 10px 20px;
+}
+.teacher-link-img img{
+    width: 140px;
+    height: 200px;
+    margin: 10px 20px;
+}
+.header-logo{
+    width: 200px;
+    float: left;
+    /* margin-right: 120px; */
+}
+.s-classify{
+    display: none;
+}
+.e-classify:hover{
+    background: #fff;
+}
+.e-classify:hover h3 a{
+    color: #444;
+}
+.e-classify:hover .s-classify {
+    display: block;
+}
+.index-fixed-box{
+    position: fixed;
+    z-index: 999;
+    top: 70%;
+    right: 10px;
+}
+.ico-ewm{
+    width: 40px;
+    height: 40px;
+    background: url("../img/ewm-bg.png");
+    cursor: pointer;
+}
+.ico-ewm img{
+    display: none;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    left: -150px;
+}
+.ico-ewm:hover img{
+    display: block;
+}
+.ico-upheader{
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background: url("../img/up-bg.png");
+    margin-top: 10px;
+}

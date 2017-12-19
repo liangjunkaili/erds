@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IDemandDao">
+	<resultMap type="erds.com.bean.Demand" id="demandResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="isfree" property="isfree" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="oprice" property="oprice" jdbcType="DOUBLE" />
+		<result column="bigtype" property="bigType" jdbcType="VARCHAR" />
+		<result column="smalltype" property="smallType" jdbcType="VARCHAR" />
+		<result column="coverimg" property="coverImg" jdbcType="VARCHAR" />
+		<result column="roomId" property="roomId" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="totalNum" property="totalNum" jdbcType="INTEGER" />
+		<result column="relNum" property="relNum" jdbcType="INTEGER" />
+		<result column="directories" property="directories" jdbcType="VARCHAR" />
+		<result column="announcement" property="announcement" jdbcType="VARCHAR" />
+		<result column="provide" property="provide" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="dd" property="dd" jdbcType="INTEGER"/>
+		<result column="knowledgePoint" property="knowledgePoint" jdbcType="VARCHAR" />
+		<result column="isCenter" property="isCenter" jdbcType="INTEGER" />
+		<result column="accessory" property="accessory" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="erds.com.bean.Demandc3" id="c3ResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="oprice" property="oprice" jdbcType="DOUBLE" />
+		<result column="bigtype" property="bigType" jdbcType="VARCHAR" />
+		<result column="smalltype" property="smallType" jdbcType="VARCHAR" />
+		<result column="coverimg" property="coverImg" jdbcType="VARCHAR" />
+		<result column="roomId" property="roomId" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="totalNum" property="totalNum" jdbcType="INTEGER" />
+		<result column="relNum" property="relNum" jdbcType="INTEGER" />
+		<result column="directories" property="directories" jdbcType="VARCHAR" />
+		<result column="announcement" property="announcement" jdbcType="VARCHAR" />
+		<result column="provide" property="provide" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="dd" property="dd" jdbcType="INTEGER"/>
+		<result column="knowledgePoint" property="knowledgePoint" jdbcType="VARCHAR" />
+		<result column="accessory" property="accessory" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getDemandsForMe" parameterType="java.util.Map"
+		resultMap="demandResultMap">
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,1 as dd,1 as knowledgePoint,1 as accessory
+		FROM
+		`course` c
+		WHERE series IN (
+			SELECT
+			`cid`
+			FROM
+			`payrecord`
+			WHERE sid =#{uid}
+		)
+		UNION
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`totalNum`,2 as dd,knowledgePoint,accessory
+		FROM
+		`demand` d
+		WHERE id IN (
+			SELECT
+			`did`
+			FROM
+			`payrecord`
+			WHERE sid =#{uid}
+		)
+		ORDER BY totalNum DESC
+		LIMIT 0, 1000
+	</select>
+
+	<select id="demandc1List" resultMap="c3ResultMap">
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`totalNum`,1 as dd,knowledgePoint,accessory
+		FROM
+		`demand` d
+		WHERE
+		`type` = "c1"
+		UNION
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,2 as dd,1 as knowledgePoint, 1 as accessory
+		FROM
+		`course` c
+		WHERE
+		`type` = "c1"
+		ORDER BY totalNum DESC
+		LIMIT 0, 1000
+	</select>
+	
+	<select id="getDemandAll" resultMap="c3ResultMap">
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		totalNum,1 AS dd,knowledgePoint,accessory
+		FROM
+		`demand` a
+		UNION
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		totalNum,2 AS dd,1 as knowledgePoint,1 as accessory
+		FROM
+		`course` b
+		ORDER BY totalNum DESC
+		LIMIT 0,1000
+	</select>
+	
+	<select id="demandc3List" resultMap="c3ResultMap">
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`totalNum`,1 as dd,knowledgePoint,accessory
+		FROM
+		`demand` d
+		WHERE
+		`type` = "c3"
+		UNION
+		SELECT
+		`id`,
+		`tid`,
+		`tname`,
+		`price`,oprice,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,2 as dd,1 as knowledgePoint,1 as accessory
+		FROM
+		`course` c
+		WHERE
+		`type` = "c3"
+		ORDER BY totalNum DESC
+		LIMIT 0, 1000
+	</select>
+
+	<insert id="addDemand" parameterType="java.util.Map">
+		INSERT INTO `demand` (
+		`title`,
+		`roomId`,
+		`isfree`,
+		`price`,oprice,
+		`tid`,
+		`tname`,
+		`coverimg`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		`bigtype`,
+		`smalltype`,knowledgePoint,isCenter,accessory
+		)
+		VALUES
+		(
+		#{title},
+		#{roomId},
+		#{isfree},
+		#{price},
+		#{oprice},
+		#{tid},
+		#{tName},
+		#{coverImg},
+		#{totalNum},
+		#{provide},
+		#{directories},
+		#{announcement},
+		0,
+		#{type},
+		#{bigType},
+		#{smallType},#{knowledgePoint},#{isCenter},#{accessory}
+		) ;
+	</insert>
+
+	<select id="getDemand" resultMap="demandResultMap" parameterType="java.util.Map">
+		select
+		`id`,
+		`title`,
+		`roomId`,
+		`isfree`,
+		`price`,oprice,
+		`tid`,
+		`tname`,
+		`coverimg`,
+		`totalNum`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		`bigtype`,
+		`smalltype`,knowledgePoint,accessory
+		from
+		`demand` d
+		<where>
+			<if test="type != null and type != '' ">
+				type=#{type}
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit #{pageIndex}, #{pageSize}
+	</select>
+
+	<select id="getDemandsForTeacher" parameterType="java.util.Map"
+		resultMap="demandResultMap">
+		select
+		`id`,
+		`title`,
+		`roomId`,
+		`isfree`,
+		`price`,oprice,
+		`tid`,
+		`tname`,
+		`coverimg`,
+		`totalNum`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		`bigtype`,
+		`smalltype`,knowledgePoint,accessory
+		from
+		`demand` d
+		<where>
+			<if test="tid != null and tid != '' ">
+				tid=#{tid}
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit 0, 1000 
+	</select>
+
+	<select id="findDemandById" parameterType="java.util.Map"
+		resultMap="demandResultMap">
+		select
+		`id`,
+		`title`,
+		`roomId`,
+		`isfree`,
+		`price`,oprice,
+		`tid`,
+		`tname`,
+		`coverimg`,
+		`totalNum`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		`bigtype`,
+		`smalltype`,knowledgePoint,accessory
+		from
+		`demand` d
+		<where>
+			<if test="id != null and id != '' ">
+				id=#{id}
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit 0, 1000 
+	</select>
+	
+	
+	<update id="updateDemand" parameterType="java.util.Map">
+		UPDATE 
+		  `demand`
+		  <set>  
+			<if test="title != null and title != ''">
+				title= #{title},
+			</if>
+        	<if test="tid != null and tid != ''">
+				 tid=#{tid},
+			</if>
+		   <if test="price != null and price != ''">
+		   		price=#{price},
+			</if>
+			<if test="state != null ">
+		   		state=#{state},
+			</if>
+			<if test="smalltype != null and smalltype != ''">
+				smalltype= #{smalltype},
+			</if>
+			<if test="coverimg != null and coverimg != ''">
+				coverimg= #{coverimg},
+			</if>
+			<if test="roomId != null and roomId != ''">
+				roomId= #{roomId},
+			</if>
+			<if test="tName != null and tName != ''">
+				tName= #{tName},
+			</if>
+			<if test="totalNum != null and totalNum != ''">
+				totalNum= #{totalNum},
+			</if>
+			<if test="provide != null and provide != ''">
+				provide= #{provide},
+			</if>
+			<if test="directories != null and directories != ''">
+				directories= #{directories},
+			</if>
+			<if test="announcement != null and announcement != ''">
+				announcement= #{announcement},
+			</if>
+			<if test="accessory != null and accessory != ''">
+				accessory= #{accessory},
+			</if>
+			<if test="knowledgePoint != null and knowledgePoint != ''">
+				knowledgePoint= #{knowledgePoint},
+			</if>
+		</set>
+		WHERE `id` = #{id} ;
+	</update>
+	
+	<delete id="delDemand" parameterType="java.lang.Integer">
+		DELETE 
+		FROM
+		  `demand` 
+		WHERE `id` = #{id} ;
+		
+	</delete>
+	
+	<select id="getIsCenter" resultMap="demandResultMap" parameterType="java.util.Map">
+		select
+		`id`,
+		`title`,
+		`roomId`,
+		`isfree`,
+		`price`,oprice,
+		`tid`,
+		`tname`,
+		`coverimg`,
+		`totalNum`,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,
+		`type`,
+		`bigtype`,
+		`smalltype`,knowledgePoint,isCenter,accessory
+		from
+		`demand` d
+		where isCenter=1
+		ORDER BY totalNum DESC
+		limit #{pageIndex}, #{pageSize}
+	</select>
+</mapper>
