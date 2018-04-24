@@ -1,0 +1,41 @@
+body {
+  background-color: #f2f2f2 !important; }
+
+#J_siteNav {
+  box-sizing: content-box !important; }
+
+.breadcrumb {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#accordion {
+    float: left;
+    width: 200px;
+    position: relative;
+}
+
+#accordion .accordion-list li {
+    margin: 0 0 10px 10px;
+}
+#accordion .accordion-list li a {
+    text-decoration: none;
+}
+#accordion .accordion-list li a:hover {
+    color: #F89646;
+}
+
+
+.content {
+    float: right;
+    margin-left: -240px;
+    padding-left: 280px;
+    width: 100%;
+    height: 800px;
+}
+.content .article {
+    border: 1px solid #eee;
+    background: #fff;
+    height: 100%;
+    border-radius: 4px;
+}

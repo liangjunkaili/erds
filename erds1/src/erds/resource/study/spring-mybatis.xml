@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:tx="http://www.springframework.org/schema/tx"
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	    http://www.springframework.org/schema/context 
+	    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	    http://www.springframework.org/schema/tx 
+	    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+ <!--加载配置文件*.properties  -->
+ <context:property-placeholder location="classpath:/erds/resource/jdbc.properties"/>
+ 
+ <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+ 	<property name="locations">
+ 		<list>
+ 			<value>classpath:/erds/resource/jdbc.properties</value>
+ 		</list>
+ 	</property>
+ </bean>
+ 
+ <!-- 注解方式 -->
+ <bean id="prop" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+ 	<property name="locations">
+ 		<list>
+ 			<value>classpath:/erds/resource/jdbc.properties</value>
+ 		</list>
+ 	</property>
+ </bean>
+ 
+ <!--spring 自带的DriverManagerDataSource  -->
+ <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 	<property name="driverClassName" value="${driver}"></property>
+ 	<property name="url" value="${url}"></property>
+ 	<property name="username" value="${username}"></property>
+ 	<property name="password" value="${password}"></property>
+ </bean> -->
+ 
+ <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+ 	<property name="driverClassName" value="${driver}"></property>
+ 	<property name="url" value="${url}"></property>
+ 	<property name="username" value="${username}"></property>
+ 	<property name="password" value="${password}"></property>
+ </bean>
+ 
+<!--  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+ 	<property name="driverClassName" value="${driver}"></property>
+ 	<property name="url" value="${url}"></property>
+ 	<property name="username" value="${username}"></property>
+ 	<property name="password" value="${password}"></property>
+ </bean>
+ 
+ <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+ 	<property name="jndiName">
+ 		<value>java:comp/env/jdbc/roseindiaDB_local</value>
+ 	</property>
+ </bean> -->
+ 
+ <!--sqlSessionFactory  -->
+ <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+ 	<property name="dataSource" ref="dataSource"></property>
+ 	<property name="mapperLocations" value="classpath:/erds/resource/mapping/*.xml"></property>
+ </bean>
+ 
+ <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+ 	<property name="basePackage" value="erds.com.dao"></property>
+ 	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+ </bean>
+ 
+ <!-- 事务管理 -->
+ <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ 	<property name="dataSource" ref="dataSource"></property>
+ </bean>
+</beans>

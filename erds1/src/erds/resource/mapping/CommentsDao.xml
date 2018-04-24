@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ICommentsDao">
+
+	<resultMap type="erds.com.bean.Comments" id="commentResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="sbid" property="sbid" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="headimg" property="headimg" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<delete id="delComment" parameterType="java.lang.Integer">
+		DELETE 
+		FROM
+		  `comments` 
+		WHERE `id` = #{id} ;
+	</delete>
+
+	<select id="queryComments" resultMap="commentResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		`id`,
+		`sid`,
+		`sbid`,
+		`headimg`,
+		`nickname`,
+		`content`,
+		time,
+		state
+		FROM
+		`comments`
+		<where>
+			<if test="sbid != null and sbid != '' ">
+				sbid = #{sbid}
+			</if>
+			<if test="state != null ">
+				and state = #{state}
+			</if>
+		</where>
+		LIMIT 0, 1000 ;
+	</select>
+
+	<insert id="addComments" parameterType="java.util.Map">
+		INSERT INTO `comments` (
+		`sid`,
+		`sbid`,
+		`content`,
+		headimg,
+		nickname,
+		time,
+		state
+		)
+		VALUES
+		(
+		#{sid},
+		#{sbid},
+		#{content},
+		#{headimg},
+		#{nickname},
+		#{time},
+		#{state}
+		) ;
+	</insert>
+
+	<update id="updateComments" parameterType="java.util.Map">
+		UPDATE
+		`comments`
+		SET
+		`state` = #{state}
+		<where>
+			<if test="id != null and id != '' ">
+				id = #{id}
+			</if>
+		</where>
+	</update>
+</mapper>

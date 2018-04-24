@@ -1,0 +1,31 @@
+
+.{root}
+
+   .fp-volume
+      position absolute
+      top (controls_height / 2) - (volume_height / 2)
+      right spacing
+
+
+   .fp-mute
+      width mute_width
+      height mute_height
+      float left
+      relative - (mute_height / 2) + (volume_height / 2)
+      cursor pointer
+      bg -2px -99px
+
+      .no-mute&
+         display none
+
+   .fp-volumeslider
+      width volume_width
+      height volume_height
+      cursor col-resize
+      float left
+
+      .no-volume&
+         display none
+
+   .fp-volumelevel
+      height 100%

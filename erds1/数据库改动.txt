@@ -1,0 +1,19 @@
+course 表添加三个属性：
+	课程介绍：provide
+	课程目录：directories
+	听课须知：announcement
+course 新增一个属性：
+	state：标记是否上跑马灯显示
+
+# /etc/init.d/mysql stop
+# mysqld_safe --user=mysql --skip-grant-tables --skip-networking &
+# mysql -u root mysql
+mysql> UPDATE user SET Password=PASSWORD('newpassword') where USER='root';
+mysql> FLUSH PRIVILEGES;
+mysql> quit
+
+# /etc/init.d/mysql restart
+# mysql -uroot -p
+Enter password: <输入新设的密码newpassword>
+重启svn
+svnserve -d -r /home/svn

@@ -1,0 +1,89 @@
+/*! ablejs - v0.2.0 - Monday, October 24th, 2016, 8:19:24 PM
+* http://www.ablesky.com
+* Copyright (c) 2016 frontend@ablesky.com; Licensed  */
+
+.org-navbar-wrap {
+    background-color: #09f
+}
+
+.org-navbar {
+    height: 40px;
+    width: 1200px;
+    margin: 0 auto;
+    font-family: Verdana, Microsoft YaHei, \5b8b\4f53
+}
+
+.org-navbar li {
+    float: left;
+    position: relative;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+    background: #09f;
+}
+.org-navbar li.first {
+    background: #fff;
+}
+.org-navbar li.first a {
+    color: #555;
+}
+    
+
+.org-navbar li.selected,
+.org-navbar li:hover {
+    background: #fff
+}
+
+.org-navbar li .text {
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    color: #fff
+}
+
+.org-navbar li.selected .text,
+.org-navbar li:hover .text {
+    color: #555
+}
+
+/* dropdown menu */
+.org-navbar li ul {
+    border-radius: 4px;
+    top:40px;
+    left: 0px;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+}
+.org-navbar li:hover ul  {
+    opacity: 1;
+    visibility: visible;
+}
+.org-navbar li ul li {
+    background: #fff;
+    width: 140px;
+}
+.org-navbar li ul li:hover {
+    background: #eee;
+}
+.org-navbar li ul a {
+    color: #666;
+    display: block;
+    height: 26px;
+    line-height: 26px;
+    padding: 7px 12px;
+}
+.org-navbar li ul a .icon {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    margin-right: 10px;
+    width: 24px;
+}
+.org-navbar li ul a .icon.elem0 {
+    background-image: url("../img/elem.png");
+}

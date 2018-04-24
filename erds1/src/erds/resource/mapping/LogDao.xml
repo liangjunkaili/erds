@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ILogDao">
+
+	<resultMap type="erds.com.bean.Log" id="logResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="dealtime" property="dealTime" jdbcType="TIMESTAMP" />
+		<result column="dealname" property="dealName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="addLog" parameterType="java.util.Map">
+		INSERT INTO `log` (
+		  `account`,
+		  `ip`,
+		  `dealtime`,
+		  `dealname`
+		) 
+		VALUES
+		  (
+		    #{account},
+		    #{ip},
+		    #{dealtime},
+		    #{dealname}
+		  ) ;
+	</insert>
+
+</mapper>

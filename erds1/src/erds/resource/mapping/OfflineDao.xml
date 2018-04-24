@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IOfflineDao">
+
+	<resultMap type="erds.com.bean.Offline" id="offlineResultMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="describe" property="describe" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="cover" property="cover" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryOfflines" resultMap="offlineResultMap" parameterType="java.util.Map">
+		SELECT 
+		  `id`,
+		  `title`,
+		  `price`,
+		  `describe`,
+		  `address`,
+		  `cover` 
+		FROM
+		  `offline` 
+		  <where>
+			<if test="id != null and id != '' ">
+				id = #{id}
+			</if>
+		</where>
+		LIMIT #{pageIndex}, #{pageSize} ;
+	</select>
+	<insert id="addOffline" parameterType="java.util.Map">
+	INSERT INTO `offline` (
+		id,
+	  `title`,
+	  `price`,
+	  `describe`,
+	  `address`,
+	  `cover`
+	) 
+	VALUES
+	  (#{id},
+	    #{title},
+	    #{price},
+	    #{describe},
+	    #{address},
+	    #{cover}
+	  ) ;
+	</insert>
+	<delete id="delOffline" parameterType="java.lang.String">
+		DELETE 
+		FROM
+		  `offline` 
+		WHERE `id` = #{id} ;
+	</delete>
+</mapper>

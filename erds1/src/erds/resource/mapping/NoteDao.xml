@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.INoteDao">
+
+	<resultMap type="erds.com.bean.Note" id="noteResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="did" property="did" jdbcType="INTEGER" />
+		<result column="sbid" property="sbid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="DOUBLE" />
+		<result column="submittime" property="submitTime" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryNote" resultMap="noteResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		`id`,
+		`sid`,
+		`sbid`,
+		`content`,
+		time,submittime,url,did,title
+		FROM
+		`note`
+		<where>
+			<if test="sbid != null and sbid != '' ">
+				sbid = #{sbid}
+			</if>
+			<if test="uid != null and uid != '' ">
+				and sid = #{uid}
+			</if>
+		</where>
+		ORDER BY submittime DESC
+		LIMIT 0, 1000 ;
+	</select>
+
+	<insert id="addNote" parameterType="java.util.Map">
+		INSERT INTO `note` (
+		`sid`,
+		`sbid`,
+		`content`,
+		time,submittime,url,did,title
+		)
+		VALUES
+		(
+		#{sid},
+		#{sbid},
+		#{content},
+		#{time},#{submitTime},#{url},#{did},#{title}
+		) ;
+	</insert>
+
+	<update id="updateNote" parameterType="java.util.Map">
+		
+	</update>
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IDrivingSchoolDao">
+
+	<resultMap type="erds.com.bean.DrivingSchool" id="drivingSchoolResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="currentTime" property="currentTime" jdbcType="INTEGER" />
+		<result column="isend" property="isend" jdbcType="INTEGER" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="actualtime" property="actualtime" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="course" property="course" jdbcType="VARCHAR" />
+		<result column="clazz" property="clazz" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="erds.com.bean.DriveRecord" id="drResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="currenttime" property="currentTime" jdbcType="INTEGER" />
+		<result column="courseid" property="courseId" jdbcType="INTEGER" />
+		<result column="classid" property="classId" jdbcType="INTEGER" />
+		<result column="classname" property="className" jdbcType="VARCHAR" />
+		<result column="uid" property="uid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="erds.com.bean.DriveCourse" id="dcResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryDS" resultMap="drivingSchoolResultMap"
+		parameterType="java.util.Map">
+		SELECT 
+		  `id`,
+		  `subject`,
+		  `course`,
+		  `clazz`,
+		  `currentTime`,
+		  `isend`,
+		  `duration`,
+		  `url`,
+		  `imgurl`,
+		  `actualtime` 
+		FROM
+		  `drivingschool` 
+		WHERE course=#{course}
+		LIMIT 0, 1000 ;
+
+	</select>
+	
+	<select id="queryDR" parameterType="java.util.Map" resultMap="drResultMap">
+		SELECT 
+		  a.`id`,
+		  a.`uid`,
+		  a.`courseid`,
+		  a.`classid`,
+		  a.`currenttime` ,
+		  b.`clazz` classname
+		FROM
+		 `driverecord` a ,drivingschool b
+		 WHERE a.`classid`=b.`id`
+		 AND uid=#{uid}
+		 <if test="courseId !=null and courseId !='' ">
+			 AND courseid=#{courseId}
+		 </if>
+		LIMIT 0, 1000 ;
+
+	</select>
+	
+	<update id="updateDS" parameterType="java.util.Map">
+		UPDATE 
+		  `drivingschool` 
+		SET
+		  `currentTime` = #{currentTime},
+		  `isend` = #{isend},
+		  `actualtime` = #{actualtime}
+		WHERE `id` = #{dsId} ;
+	</update>
+	
+	<update id="updateDR" parameterType="java.util.Map">
+		UPDATE 
+		  `driverecord` 
+		SET
+		  `courseid` = #{courseid},
+		  `classid` = #{classid},
+		  `currenttime` = #{currentTime} 
+		WHERE `id` = #{drId} ;
+	</update>
+	<select id="queryDC" parameterType="java.util.Map" resultMap="dcResultMap">
+		SELECT 
+		  `id`,
+		  `imgurl`,
+		  `title` 
+		FROM
+		  `drivecourse` 
+		ORDER BY id ASC
+		LIMIT 0, 1000 
+	</select>
+	
+	<select id="queryDSId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT 
+		  id
+		FROM
+		  `drivingschool` 
+		  WHERE course=#{courseId}
+		ORDER BY id ASC
+	</select>
+</mapper>

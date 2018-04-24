@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ICourseDao">
+
+	<resultMap type="erds.com.bean.Course" id="CourseResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="oprice" property="oprice" jdbcType="DOUBLE" />
+		<result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="bigtype" property="bigType" jdbcType="VARCHAR" />
+		<result column="smalltype" property="smallType" jdbcType="VARCHAR" />
+		<result column="coverimg" property="coverImg" jdbcType="VARCHAR" />
+		<result column="roomId" property="roomId" jdbcType="VARCHAR" />
+		<result column="hostCode" property="hostCode" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="totalNum" property="totalNum" jdbcType="INTEGER" />
+		<result column="relNum" property="relNum" jdbcType="INTEGER" />
+		<result column="directories" property="directories" jdbcType="VARCHAR" />
+		<result column="announcement" property="announcement" jdbcType="VARCHAR" />
+		<result column="provide" property="provide" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="videourl" property="videourl" jdbcType="VARCHAR" />
+		<result column="series" property="series" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap type="erds.com.bean.Course" id="getCourseResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="oprice" property="oprice" jdbcType="DOUBLE" />
+		<result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="bigtype" property="bigType" jdbcType="VARCHAR" />
+		<result column="smalltype" property="smallType" jdbcType="VARCHAR" />
+		<result column="coverimg" property="coverImg" jdbcType="VARCHAR" />
+		<result column="roomId" property="roomId" jdbcType="VARCHAR" />
+		<result column="hostCode" property="hostCode" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="totalNum" property="totalNum" jdbcType="INTEGER" />
+		<result column="relNum" property="relNum" jdbcType="INTEGER" />
+		<result column="directories" property="directories" jdbcType="VARCHAR" />
+		<result column="announcement" property="announcement" jdbcType="VARCHAR" />
+		<result column="provide" property="provide" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="dd" property="dd" jdbcType="INTEGER"/>
+		<result column="videourl" property="videourl" jdbcType="VARCHAR" />
+		<result column="series" property="series" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<select id="getCoursesForTeacher" resultMap="CourseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		totalNum,
+		`provide`,
+		`directories`,
+		`announcement`,state,TYPE,videourl,series
+		FROM
+		`course` c
+		<where>
+			<if test="tid != null and tid != '' ">
+				tid = #{tid}
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit 0, 1000 ;
+	</select>
+
+	<select id="findCourseById" resultMap="CourseResultMap"
+		parameterType="java.util.Map">
+		select
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,videourl,series
+		from
+		`course` c
+		<where>
+			<if test="cid != null and cid != '' ">
+				id = #{cid}
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit 0, 1000 ;
+	</select>
+	
+	<select id="getCourseList" resultMap="getCourseResultMap" parameterType="java.util.Map">
+		SELECT
+		`id`,
+		`tid`,
+		`price`,oprice,
+		'2016-09-09' as `begintime`,
+		'2016-09-09' as `endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		'aaaaaaaaaa' as `hostCode`,
+		`tName`,
+		null as `duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE did=d.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,1 as dd,"" as videourl ,"" as series
+		FROM
+		`demand` d
+		<where>
+			<if test="bigType != null and bigType != '' ">
+				bigtype = #{bigType}
+			</if>
+			<if test="smallType != null and smallType != '' ">
+				and smalltype = #{smallType}
+			</if>
+			<if test="type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test="cid != null and cid != '' ">
+				and id = #{cid}
+			</if>
+			<if test="tid != null and tid != '' ">
+				and tid = #{tid}
+			</if>
+			<if test="title != null and title != '' ">
+				and title like concat(concat('%',#{title}),'%')
+			</if>
+		</where>
+		UNION
+		SELECT
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,2 as dd,videourl,series
+		FROM
+		`course` c
+		<where>
+			<if test="bigType != null and bigType != '' ">
+				bigtype = #{bigType}
+			</if>
+			<if test="smallType != null and smallType != '' ">
+				and smalltype = #{smallType}
+			</if>
+			<if test="type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test="cid != null and cid != '' ">
+				and id = #{cid}
+			</if>
+			<if test="tid != null and tid != '' ">
+				and tid = #{tid}
+			</if>
+			<if test="title != null and title != '' ">
+				and title like concat(concat('%',#{title}),'%')
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		LIMIT #{pageIndex}, #{pageSize} 
+	</select>
+	<select id="getCourse" resultMap="CourseResultMap"
+		parameterType="java.util.Map">
+		select
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,videourl,series
+		from
+		`course` c
+		<where>
+			<if test="bigType != null and bigType != '' ">
+				bigtype = #{bigType}
+			</if>
+			<if test="smallType != null and smallType != '' ">
+				and smalltype = #{smallType}
+			</if>
+			<if test="type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test="cid != null and cid != '' ">
+				and id = #{cid}
+			</if>
+			<if test="tid != null and tid != '' ">
+				and tid = #{tid}
+			</if>
+			<if test="title != null and title != '' ">
+				and title like concat(concat('%',#{title}),'%')
+			</if>
+		</where>
+		ORDER BY totalNum DESC
+		limit 0, 1000 
+	</select>
+	
+	
+	<select id="manGetCourseAll" resultMap="CourseResultMap"
+		parameterType="java.util.Map">
+		select
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,videourl,series
+		from
+		`course` c
+		ORDER BY totalNum DESC
+		limit 0, 1000 
+	</select>
+	
+	
+	
+	
+
+	<select id="getCourseAll" resultMap="CourseResultMap"
+		parameterType="java.util.Map">
+		select
+		`id`,
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`endtime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration` ,
+		(SELECT COUNT(*) FROM payrecord
+		WHERE cid=c.id) `relNum`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,state,type,videourl,series
+		from
+		`course` c
+		ORDER BY totalNum DESC
+		limit #{pageIndex}, #{pageSize} 
+	</select>
+
+	
+	<insert id="addCourse" parameterType="java.util.Map">
+		INSERT INTO `course` (
+		`tid`,
+		`price`,oprice,
+		`begintime`,
+		`bigtype`,
+		`smalltype`,
+		`coverimg`,
+		`roomId`,
+		`title`,
+		`hostCode`,
+		`tName`,
+		`duration`,
+		`totalNum`,
+		`provide`,
+		`directories`,
+		`announcement`,
+		`state`,type,videourl,series
+		)
+		VALUES
+		(
+		#{tid},
+		#{price},
+		#{oprice},
+		#{begintime},
+		#{bigtype},
+		#{smalltype},
+		#{coverimg},
+		#{roomId},
+		#{title},
+		#{hostCode},
+		#{tName},
+		#{duration},#{totalNum},#{provide},#{directories},#{announcement},0,#{type},#{videourl},#{series}
+		) ;
+
+
+
+	</insert>
+
+	<update id="updateCourse" parameterType="java.util.Map">
+		UPDATE 
+		  `course`
+		  <set>  
+        	<if test="tid != null and tid != ''">
+				 tid=#{tid},
+			</if>
+		   <if test="price != null and price != ''">
+		   		price=#{price},
+			</if>
+			<if test="begintime != null and begintime != ''">
+				begintime= #{begintime},
+			</if>
+			<if test="state != null ">
+		   		state=#{state},
+			</if>
+			<if test="bigtype != null and bigtype != ''">
+				bigtype= #{bigtype},
+			</if>
+			<if test="smalltype != null and smalltype != ''">
+				smalltype= #{smalltype},
+			</if>
+			<if test="coverimg != null and coverimg != ''">
+				coverimg= #{coverimg},
+			</if>
+			<if test="roomId != null and roomId != ''">
+				roomId= #{roomId},
+			</if>
+			<if test="title != null and title != ''">
+				title= #{title},
+			</if>
+			<if test="hostCode != null and hostCode != ''">
+				hostCode= #{hostCode},
+			</if>
+			<if test="tName != null and tName != ''">
+				tName= #{tName},
+			</if>
+			<if test="duration != null and duration != ''">
+				duration= #{duration},
+			</if>
+			<if test="totalNum != null and totalNum != ''">
+				totalNum= #{totalNum},
+			</if>
+			<if test="provide != null and provide != ''">
+				provide= #{provide},
+			</if>
+			<if test="directories != null and directories != ''">
+				directories= #{directories},
+			</if>
+			<if test="announcement != null and announcement != ''">
+				announcement= #{announcement},
+			</if>
+			
+		</set>
+		WHERE `id` = #{id} ;
+	</update>
+	
+	<delete id="delCourse" parameterType="java.lang.Integer">
+		DELETE 
+		FROM
+		  `course` 
+		WHERE `id` = #{id} ;
+	</delete>
+</mapper>
