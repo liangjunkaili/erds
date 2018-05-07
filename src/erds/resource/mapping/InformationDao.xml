@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IInformationDao">
+
+	<resultMap type="erds.com.bean.Information" id="informationResultMap">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="href" property="href" jdbcType="VARCHAR" />
+		<result column="img" property="img" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryInformations" resultMap="informationResultMap">
+		SELECT 
+		  `id`,
+		  `title`,
+		  `href`,
+		  `img` 
+		FROM
+		  `information` 
+		    ORDER BY id DESC
+		LIMIT 0, 1000 ;
+	</select>
+<insert id="addInformation" parameterType="java.util.Map">
+INSERT INTO `information` (`title`, `href`, `img`) 
+VALUES
+  ( #{title}, #{href}, #{img}) ;
+</insert>
+</mapper>

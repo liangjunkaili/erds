@@ -1,0 +1,46 @@
+body {
+  background-color: #f2f2f2 !important; }
+
+#J_siteNav {
+  box-sizing: content-box !important; }
+
+.teacher-bg {
+  background: url("../img/bg-teacher.png");
+  height: 235px;
+  margin-bottom: 20px; }
+  .teacher-bg .teacher-main {
+    margin: 0 auto;
+    width: 1200px;
+    height: 235px; }
+    .teacher-bg .teacher-main .teacher-img {
+      float: left;
+      width: 190px;
+      height: 190px;
+      margin: 20px; }
+      .teacher-bg .teacher-main .teacher-img img {
+        width: 100%;
+        height: 100%; }
+    .teacher-bg .teacher-main .teacher-detail {
+      float: left;
+      color: #fff;
+      padding: 40px 20px; }
+      .teacher-bg .teacher-main .teacher-detail .teacher-word {
+        margin-top: 60px; }
+    .teacher-bg .teacher-main:after {
+      content: '';
+      display: table;
+      clear: both; }
+
+.teacher-intro {
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 20px; }
+  .teacher-intro .title {
+    margin-top: 0;
+    margin-bottom: 15px; }
+  .teacher-intro .words {
+    color: #666; }
+
+/*# sourceMappingURL=details.css.map */

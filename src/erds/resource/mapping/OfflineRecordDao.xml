@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IOfflineRecordDao">
+
+<resultMap type="erds.com.bean.OfflineRecord" id="offlineResultMap">
+	<result column="id" property="id" jdbcType="INTEGER"/>
+	<result column="sid" property="sid" jdbcType="VARCHAR"/>
+	<result column="dealtime" property="dealTime" jdbcType="VARCHAR"/>
+	<result column="oid" property="oid" jdbcType="INTEGER"/>
+	<result column="otitle" property="oTitle" jdbcType="VARCHAR"/>
+</resultMap>
+	
+	<insert id="addOfflineRecord" parameterType="java.util.Map">
+		INSERT INTO `offlinerecord` (
+		  `sid`,
+		  `oid`,
+		  `dealtime`,
+		  `otitle`
+		) 
+		VALUES
+		  (
+		    #{sid},
+		    #{oid},
+		    #{dealtime},
+		    #{otitle}
+		  ) ;
+	</insert>
+
+	<select id="queryOfflineRecord" parameterType="java.util.Map" resultMap="offlineResultMap">
+		SELECT 
+		  `id`,
+		  `sid`,
+		  `oid`,
+		  `dealtime`,
+		  `otitle` 
+		FROM
+		  `offlinerecord` 
+		<where> 
+		    <if test="sid != null and sid != '' ">
+		         sid = #{sid}
+		    </if>
+		    <if test="oid != null and oid != '' ">
+		        and oid = #{oid}
+		    </if> 
+		  </where> 
+		LIMIT 0, 1000 ;
+	</select>
+	
+</mapper>

@@ -1,0 +1,31 @@
+SVN更新的时候：
+U:表示从服务器收到文件更新了
+
+G:表示本地文件以及服务器文件都已更新,而且成功的合并了
+
+A:表示有文件或者目录添加到工作目录
+
+R:表示文件或者目录被替换了.
+
+C:表示文件的本地修改和服务器修改发生冲突
+
+用vim编辑器打开/etc/profile文件，在文件尾部加入环境变量的定义
+
+JAVA_HOME=/usr/local/jdk1.8.0_91/
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH
+、检查系统中是否存在jdk或者openjdk
+ 
+#  rpm -qa | grep java
+ 
+2、如果有请参考文章“centos7上如何删自带的java jdk(openjdk)”进行删除删除（没有跳过此步）
+ 
+# rpm -e --nodeps 相关文件名
+tar zxvf jdk-7u67-linux-i586.tar.gz
+ 
+export JAVA_HOME=/usr/local/jdk1.8.0_91
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:$PATH

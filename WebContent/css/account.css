@@ -1,0 +1,84 @@
+body {
+  background-color: #f2f2f2 !important; }
+
+#J_siteNav {
+  box-sizing: content-box !important; }
+
+.personal-header {
+  height: 125px;
+  padding: 22px;
+  border: 1px solid #ccc;
+  margin: 15px 0;
+  background: #fff; }
+  .personal-header .head-img {
+    height: 80px;
+    width: 80px;
+    float: left;
+    margin: 0 60px 0 38px;
+    position: relative; }
+    .personal-header .head-img img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%; }
+    .personal-header .head-img .head-img-mask {
+      background-color: rgba(0, 0, 0, 0.3);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      color: #fff;
+      line-height: 80px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity .5s; }
+      .personal-header .head-img .head-img-mask:hover {
+        opacity: 1; }
+    .personal-header .head-img #fileinput-button {
+      display: none; }
+  .personal-header .head-user h3 {
+    display: inline-block; }
+  .personal-header .head-user .sex {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    margin-left: 20px;
+    background: url("../img/my-icon.png") 0 0 no-repeat; }
+
+.personal-sidebar {
+  float: left;
+  width: 198px;
+  border: 1px solid #ccc;
+  background: #fff; }
+  .personal-sidebar ul {
+    padding: 30px 0 10px 0; }
+    .personal-sidebar ul li {
+      margin-bottom: 10px;
+      border-right: 4px solid #fff; }
+      .personal-sidebar ul li a {
+        display: inline-block;
+        line-height: 40px;
+        text-align: center;
+        width: 100%;
+        color: #000;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none; }
+      .personal-sidebar ul li:hover {
+        border-right: 4px solid #5bf; }
+    .personal-sidebar ul li.active {
+      background-color: #5bf;
+      border: none; }
+      .personal-sidebar ul li.active a {
+        color: #fff; }
+
+.personal-main {
+  float: right;
+  width: 898px;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 30px 50px;
+  color: #555; }
+
+/*# sourceMappingURL=account.css.map */

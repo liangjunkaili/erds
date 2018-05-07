@@ -1,0 +1,36 @@
+#J_siteNav {
+    box-sizing: content-box !important;
+}
+
+.main {
+    margin-top: 80px;
+}
+.panel-body {
+    padding: 15px 30px !important;
+}
+.single-choose, .multiple-choose {
+    margin: 10px 0;
+}
+
+
+footer {
+    border-top: 1px dashed #ddd;
+    padding-top: 20px;
+}
+
+.site-map nav {
+    margin-bottom: 10px;
+}
+.site-map .item {
+    color:#666;
+    padding: 0 10px;
+}
+
+.site-map .copyright {
+    color: #666;
+    margin: 12px 0;
+}
+.site-map .copyright a {
+    color: #666;
+    text-decoration: none;
+}

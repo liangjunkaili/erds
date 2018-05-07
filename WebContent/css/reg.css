@@ -1,0 +1,117 @@
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-color: #F1F1F1;
+    position: relative;
+}
+
+.container {
+    width: 600px;
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+.container .reg-content {
+    padding: 25px 30px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #ccc;
+    background-color: #fff;
+}
+.container .reg-content::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.container .reg-content .reg-lf {
+    float: left;
+    color: #555;
+}
+
+.container .reg-content .reg-title {
+    font-size: 18px;
+    font-weight: 400;
+}
+.container .reg-content .reg-form {
+    margin:  0 0 0 20px;
+    padding: 0;
+}
+.container .reg-content .reg-form li {
+    list-style: none;
+    height: 40px;
+    font-size: 12px;
+    padding: 5px 0;
+}
+.reg-form label {
+    display: inline-block;
+    width: 100px;
+    height: 35px;
+    text-align: center;
+    vertical-align: baseline;
+}
+
+.reg-form input {
+    width: 260px;
+    height: 30px;
+    background: #f0fbff;
+    border: 1px solid #cceeff;
+    border-radius: 4px;
+    font-size: 16px;
+    text-indent: 8px;
+}
+
+.reg-form input:focus {
+    outline: none;
+}
+
+.reg-form .get-message {
+    width: 100px;
+    height: 30px;
+    margin-left: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    cursor: pointer;
+    background: linear-gradient(to top, #e2e2e2, #eee);
+}
+.reg-form .get-message:hover {
+    background: linear-gradient(to top, #eee, #e3e3e3);
+}
+.reg-form .get-message:focus {
+    outline: none;
+}
+#contract {
+    width: 12px;
+    height: 12px;
+    margin-left: 100px;
+}
+
+
+.reg-lf .register-btn {
+    width: 166px;
+    height: 35px;
+    color: #fff;
+    font-size: 18px;
+    text-shadow: 0 1px 1px #492;
+    text-align: center;
+    cursor: pointer;
+    background: linear-gradient(to top, #7bc73e, #93e056);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 2px #44aa22;
+    margin-left: 120px;
+}
+
+.reg-lf .register-btn:hover {
+    background: linear-gradient(to top, #6eb238, #9ce066);
+}
+.reg-lf .register-btn:focus {
+    outline: none;
+}
+
+.reg-rt .login {
+    margin-bottom: 65px;
+}

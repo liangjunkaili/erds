@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IPracticeDao">
+
+	<resultMap type="erds.com.bean.Practice" id="practiceResultMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="uid" property="uid" jdbcType="VARCHAR" />
+		<result column="sid" property="sid" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="judge" property="judge" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryPractice" resultMap="practiceResultMap" parameterType="java.util.Map">
+		select 
+		  `uid`,
+		  `sid`,
+		  `answer`,
+		  `judge`,
+		  `reason` ,id
+		from
+		  `practice` 
+		where judge=0
+		and uid=#{uid}
+		limit 0, 1000 ;
+	</select>
+
+	<insert id="savePractice" parameterType="java.util.Map">
+		INSERT INTO `practice` (
+		  `uid`,
+		  `sid`,
+		  `answer`,
+		  `judge`,
+		  `reason`,id
+		) 
+		VALUES
+		  (
+		    #{uid},
+		    #{sid},
+		    #{answer},
+		    #{judge},
+		    #{reason},#{id}
+		  ) ;
+	</insert>
+	
+	<update id="updatePractice" parameterType="java.util.Map">
+		UPDATE 
+		  `practice` 
+		SET
+		  `reason` = #{reason}
+		WHERE id=#{id}
+	</update>
+</mapper>

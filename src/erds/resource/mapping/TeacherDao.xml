@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.ITeacherDao">
+
+<resultMap type="erds.com.bean.Teacher" id="teacherResultMap">
+	<result column="id" property="id" jdbcType="INTEGER"/>
+	<result column="tid" property="tid" jdbcType="INTEGER"/>
+	<result column="price" property="price" jdbcType="DOUBLE"/>
+	<result column="begintime" property="beginTime" jdbcType="TIMESTAMP"/>
+	<result column="endtime" property="endTime" jdbcType="TIMESTAMP"/>
+	<result column="bigtype" property="bigType" jdbcType="VARCHAR"/>
+	<result column="smalltype" property="smallType" jdbcType="VARCHAR"/>
+	<result column="coverimg" property="coverImg" jdbcType="VARCHAR"/>
+	<result column="password" property="password" jdbcType="VARCHAR"/>
+</resultMap>
+	
+	<resultMap type="erds.com.bean.Manager" id="managerResultMap">
+		<result column="account" property="account" jdbcType="VARCHAR"/>
+		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap type="erds.com.bean.Parent" id="parentResultMap">
+		<result column="pid" property="pid" jdbcType="VARCHAR"/>
+		<result column="pName" property="pName" jdbcType="VARCHAR"/>
+		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+		<result column="child" property="child" jdbcType="VARCHAR"/>
+		<result column="validateCode" property="validateCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	<insert id="saveParent" parameterType="java.util.Map">
+		INSERT INTO `parent` (`pid`, `pName`, `pwd`, `child`,validateCode) 
+		VALUES
+		  (#{pid}, #{pName}, #{pwd}, #{child},#{validateCode}) ;
+	</insert>
+	<select id="queryParent" parameterType="java.util.Map" resultMap="parentResultMap">
+		SELECT 
+		  `pid`,
+		  `pName`,
+		  `pwd`,
+		  `child` 
+		FROM
+		  `parent` 
+		  <where>
+		  	<if test="pid != null and pid !='' ">
+		  		pid = #{pid}
+		  	</if>
+		  	<if test="pwd != null and pwd !='' ">
+		  		and pwd = #{pwd}
+		  	</if>
+		  	<if test="validateCode != null and validateCode !='' ">
+		  		and validateCode = #{validateCode}
+		  	</if>
+		  </where>
+	</select>
+	<select id="findManager" parameterType="java.util.Map" resultMap="managerResultMap">
+		SELECT 
+		  `account`,
+		  `pwd` 
+		FROM
+		  `manager` 
+		WHERE account=#{account}
+		AND pwd=#{pwd}
+	</select>
+	<select id="findTeacherById" parameterType="java.util.Map" resultMap="teacherResultMap">
+		SELECT 
+		  `tid`,
+		  `tname`,
+		  `headimg`,
+		  `describle`,
+		  `sign`,
+		  `password` 
+		FROM
+		  `teacher` 
+		  <where>
+			   <if test="tid != null and tid != '' ">
+			        tid=#{tid}
+			    </if>
+			    <if test="password != null and password != '' ">
+			        and password=#{password}
+			    </if>
+		  </where>
+		  LIMIT 0, 1000 ;
+	</select>
+	
+	<insert id="addTeacher" parameterType="java.util.Map">
+		INSERT INTO `teacher` (
+		  `tname`,
+		  `headimg`,
+		  `describle`,
+		  `sign`,
+		  `password` 
+		) 
+		VALUES
+		  (
+		    #{tname},
+		    #{headimg},
+		    #{describle},
+		    #{sign},
+		    #{password}
+		  ) ;
+	</insert>
+
+	<select id="getTeacherList" parameterType="java.util.Map" resultMap="teacherResultMap">
+		SELECT 
+		  `tid`,
+		  `tname`,
+		  `headimg`,
+		  `describle`,
+		  `sign`,
+		  `password` 
+		FROM
+		  `teacher` 
+		LIMIT 0, 1000 ;
+	</select>
+	
+	<update id="updateParent" parameterType="java.util.Map">
+		UPDATE 
+		  `parent` 
+		<set>  
+		   <if test="pName != null and pName != ''">
+		   		pName=#{pName},
+			</if>
+			 <if test="pwd != null and pwd != ''">
+		   		pwd=#{pwd},
+			</if>
+			<if test="child != null and child != ''">
+				child= #{child},
+			</if>
+		</set>
+		WHERE `pid` = #{pid} ;
+	</update>
+	<update id="updateTeacher" parameterType="java.util.Map">
+		UPDATE 
+		  `teacher` 
+		<set>  
+		   <if test="tname != null and tname != ''">
+		   		tname=#{tname},
+			</if>
+			 <if test="password != null and password != ''">
+		   		password=#{password},
+			</if>
+			<if test="headimg != null and headimg != ''">
+				headimg= #{headimg},
+			</if>
+			<if test="describle != describle ">
+		   		describle=#{describle},
+			</if>
+			<if test="sign != null and sign != ''">
+				sign= #{sign},
+			</if>
+		</set>
+		WHERE `tid` = #{tid} ;
+	</update>
+	<select id="getTeacher" resultMap="teacherResultMap" parameterType="java.util.Map">
+		  SELECT 
+		  `tid`,
+		  `tname`,
+		  `headimg`,
+		  `describle`,
+		  `sign`,
+		  `password` 
+		FROM
+		  teacher 
+		<where> 
+		    <if test="tid != null and tid != '' ">
+		         `tid` = #{tid}
+		    </if>
+		    <if test="password != null and password != '' ">
+		        AND `password` = #{password} 
+		    </if> 
+		  </where>
+		LIMIT 0, 1000 ;
+	</select>
+</mapper>

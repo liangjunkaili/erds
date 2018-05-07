@@ -1,0 +1,4 @@
+/*! ablejs - v0.2.0 - Friday, March 25th, 2016, 3:17:07 PM
+* http://www.ablesky.com
+* Copyright (c) 2016 frontend@ablesky.com; Licensed  */
+define(function(){function t(){window.MathJax&&window.MathJax.isReady?MathJax.Hub.Typeset(document,document.body):(document.body.appendChild(i),document.body.appendChild(n))}var e={showMathMenu:!1,showMathMenuMSIE:!1,showProcessingMessages:"none",tex2jax:{inlineMath:[["\\[","\\]"]],displayMath:[["$$","$$"]]}},n=document.createElement("script");n.src=JS_PATH+"/mathjax/MathJax.js?config=TeX-AMS_HTML-full";var i=document.createElement("div");return i.innerHTML='<script type="text/x-mathjax-config">MathJax.Hub.Config('+JSON.stringify(e)+")</script>",{render:t}});

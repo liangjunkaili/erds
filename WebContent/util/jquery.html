@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- <img/><img/>
+<button>Change colors</button> 
+<span></span> 
+<div></div> 
+<div></div> 
+<div></div> 
+<div></div> 
+<div id="stop">Stop here</div> 
+<div></div> 
+<div></div> 
+<div></div>
+<ul></ul>
+<div data-test="this is test" id="div"></div> -->
+<style>
+  div { margin:3px; width:40px; height:40px;
+        position:absolute; left:0px; top:30px; 
+        background:green; display:none; }
+  div.newcolor { background:blue; }
+  span { color:red; }
+</style>
+<button id="show">Show Length of Queue</button>
+<span></span>
+<button id="start">Start</button>
+  <button id="stop">Stop</button>
+<div></div>
+<input type="checkbox">
+<input type="checkbox">
+<input type="radio">
+<input type="radio">
+<p>Hello</p><p>2nd Paragraph</p>
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+/* $("p").append("<b>Hello</b>");
+$("p").prepend("<b>Hello</b>");
+$("p").after("<b>Hello</b>");
+$("p").before("<b>Hello</b>"); */
+//$("p").insertAfter("#start");
+$("p").insertBefore("#start");
+$("p").wrapInner("<b></b>");
+/* var p = $("p:last");
+var offset = p.offset();
+p.html( "left: " + offset.left + ", top: " + offset.top ); */
+//$("p:last").offset({ top: 10, left: 30 });
+/* var p = $("p:first");
+var position = p.position();
+$("p:last").html( "left: " + position.left + ", top: " + position.top ); */
+/* var p = $("p:first");
+$("p:first").scrollTop(300);
+$("p:last").text( "scrollTop:" + p.scrollTop() ); */
+/* var p = $("p:first");
+$("p:last").text( "innerHeight:" + p.innerHeight() );
+var p = $("p:first");
+$("p:last").text( "outerHeight:" + p.outerHeight() + " , outerHeight(true):" + p.outerHeight(true) );
+console.log($("p").height());
+console.log($("p").width()); */
+$("button").click(function(){
+    $("p").height(function(n,c){
+    return c+10;
+    });
+    $("p").width(function(n,c){
+        return c+10;
+        });
+  });
+$("button").click(function () { 
+	$("div").each(function (index, domEle) { 
+		$(domEle).css("backgroundColor", "yellow"); 
+		if ($(this).is("#stop")) {
+			$("span").text("Stopped at div index #" + index);
+			return false; 
+		} 
+	}); 
+});
+/* $("img").each(function(i){
+	   this.src = "test" + i + ".jpg";
+}); */
+$("img").each(function(){
+	  $(this).toggleClass("example");
+});
+$("ul")
+.append("<li>" + $("ul").selector + "</li>")
+.append("<li>" + $("ul li").selector + "</li>")
+.append("<li>" + $("div#foo ul:not([class])").selector + "</li>");
+$("ul")
+.append("<li>" + $("ul").context + "</li>")
+.append("<li>" + $("ul", document.body).context.nodeName + "</li>");
+console.log($("#div").data("test"));
+$("#div").data("qq","123");
+console.log($("#div").data("qq"));
+$("#div").removeData("qq");
+console.log($("#div").data("qq"));
+$("#show").click(function () { 
+	var n = $("div").queue("fx"); 
+	$("span").text("Queue length is: " + n.length); 
+}); 
+	function runIt() { 
+		$("div").show("slow"); 
+		$("div").animate({left:'+=200'},2000); 
+		$("div").slideToggle(1000); 
+		$("div").slideToggle("fast"); 
+		$("div").animate({left:'-=200'},1500); 
+		$("div").hide("slow"); 
+		$("div").show(1200); 
+		$("div").slideUp("normal", runIt); 
+	} 
+runIt();
+$("#start").click(function () {
+    $("div").show("slow");
+    $("div").animate({left:'+=200'},5000);
+    $("div").queue(function () {
+        $(this).addClass("newcolor");
+        $(this).dequeue();
+    });
+    $("div").animate({left:'-=200'},1500);
+    $("div").queue(function () {
+        $(this).removeClass("newcolor");
+        $(this).dequeue();
+    });
+    $("div").slideUp();
+});
+$("#stop").click(function () {
+    $("div").queue("fx", []);
+    $("div").stop();
+});
+jQuery.fn.extend({
+	  check: function() {
+	    return this.each(function() { this.checked = true; });
+	  },
+	  uncheck: function() {
+	    return this.each(function() { this.checked = false; });
+	  }
+});
+console.log($("input[type=checkbox]").check());
+console.log($("input[type=radio]").uncheck());
+$.ajax({
+	url:"",
+	async:true,
+	beforeSend:function(){
+		
+	},
+	cache:true,
+	complete:function(){
+		
+	},
+	contents:"{'a':''}",
+	contentType:"application/x-www-form-urlencoded",
+	context:document.body,
+	converters:'{"* text": window.String, "text html": true, "text json": jQuery.parseJSON, "text xml": jQuery.parseXML}',
+	crossDomain:false,//jsonp为true
+	data:"",
+	dataFilter:function(){
+		
+	},
+	dataType:"json",
+	error:function(){
+		
+	},
+	global:true,
+	headers:"{}",
+	ifModified:false,
+	isLocal:"{}",
+	jsonp:"",
+	jsonpCallback:"",
+	mimeType:"",
+	password:"",
+	processData:true,
+	scriptCharset:"",
+	statusCode:{},
+	success:function(){
+		
+	},
+	type:"GET"
+});
+</script>
+</body>
+</html>

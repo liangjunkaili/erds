@@ -1,0 +1,4 @@
+/*! ablejs - v0.2.0 - Thursday, October 23rd, 2014, 7:37:40 PM
+* http://www.ablesky.com
+* Copyright (c) 2014 frontend@ablesky.com; Licensed  */
+define(["module","jquery"],function(e,t){function a(e){var t=['<object id="test" style="height:45px;" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6">','<param name="url" value="'+e+'" >','<param name="AutoStart" value="0">',"</object>"],a=document.createElement("div");return a.innerHTML=t.join(""),a}function i(e){var t=new Audio;return t.src=e,t.controls=!0,t.autoplay=!1,t}var n={createPlayer:i};return t.browser.msie&&("7.0"==t.browser.version||"8.0"==t.browser.version)&&(n.createPlayer=a),n});

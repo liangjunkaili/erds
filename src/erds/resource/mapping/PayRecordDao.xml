@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="erds.com.dao.IPayRecord">
+
+<resultMap type="erds.com.bean.PayRecord" id="payResultMap">
+	<result column="id" property="id" jdbcType="INTEGER"/>
+	<result column="sid" property="sid" jdbcType="VARCHAR"/>
+	<result column="money" property="money" jdbcType="DOUBLE"/>
+	<result column="dealTime" property="dealTime" jdbcType="VARCHAR"/>
+	<result column="cid" property="cid" jdbcType="VARCHAR"/>
+	<result column="billNo" property="billNo" jdbcType="VARCHAR"/>
+	<result column="did" property="did" jdbcType="INTEGER"/>
+</resultMap>
+	
+	<insert id="addPayRecord" parameterType="java.util.Map">
+		INSERT INTO `payrecord` (
+		  `sid`,
+		  `money`,
+		  `cid`,
+		  `dealTime`,billNo,did
+		) 
+		VALUES
+		  (
+		    #{sid},
+		    #{money},
+		    #{cid},
+		    #{dealTime},#{billNo},#{did}
+		  ) ;
+	</insert>
+
+	<select id="queryPayRecord" parameterType="java.util.Map" resultMap="payResultMap">
+		SELECT 
+		  `id`,
+		  `sid`,
+		  `money`,
+		  `cid`,
+		  `dealTime` ,billNo,did
+		FROM
+		  `payrecord` 
+		<where> 
+		    <if test="sid != null and sid != '' ">
+		         sid = #{sid}
+		    </if>
+		    <if test="cid != null and cid != '' ">
+		        and cid = #{cid}
+		    </if> 
+		    <if test="did != null and did != '' ">
+		        and did = #{did}
+		    </if>
+		    <if test="billNo != null and billNo != '' ">
+		        and billNo = #{billNo}
+		    </if>
+		  </where> 
+		LIMIT 0, 1000 ;
+	</select>
+	
+	<select id="queryPayByBillNo" parameterType="java.util.Map" resultMap="payResultMap">
+		SELECT 
+		  `id`,
+		  `sid`,
+		  `money`,
+		  `cid`,
+		  `dealTime` ,billNo,did
+		FROM
+		  `payrecord` 
+		<where> 
+		    <if test="billNo != null and billNo != '' ">
+		        and billNo = #{billNo}
+		    </if>
+		  </where> 
+		LIMIT 0, 1000 ;
+	</select>
+</mapper>
